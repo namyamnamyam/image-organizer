@@ -13,7 +13,7 @@
     header{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;max-width:1600px;margin:0 auto 24px}.eyebrow{margin:0 0 8px;color:var(--dark);font-size:12px;font-weight:800;letter-spacing:.18em}
     h1{margin:0;font-size:clamp(32px,5vw,54px);letter-spacing:-.055em;line-height:1}.subtitle{margin:14px 0 0;color:var(--muted)}.privacy{flex:none;border:1px solid #b9ddd3;border-radius:999px;background:#eaf8f4;color:#176c5a;padding:10px 14px;font-size:13px;font-weight:700}
     .toolbar,.editor{max-width:1600px;margin:auto;border:1px solid var(--line);background:#ffffffe8;box-shadow:0 12px 40px #23322e12}.toolbar{display:flex;align-items:center;gap:10px;border-radius:20px 20px 0 0;padding:14px}
-    .btn{min-height:44px;border:0;border-radius:12px;padding:0 18px;font-weight:800}.primary{background:var(--mint);color:#fff}.secondary{border:1px solid #b9c4bf;background:#fff}.ghost{background:#eef0ed;color:#59625d}.save{background:var(--ink);color:#fff}.count{margin-left:4px;color:var(--muted);font-size:14px}.count strong{color:var(--ink);font-size:18px}.spacer{flex:1}
+    .btn{min-height:44px;border:0;border-radius:12px;padding:0 18px;font-weight:800}.zipname{width:180px;min-height:44px;border:1px solid #b9c4bf;border-radius:12px;outline:0;padding:0 12px;background:#fff}.zipname:focus{border-color:var(--mint);box-shadow:0 0 0 3px #16a0851f}.primary{background:var(--mint);color:#fff}.secondary{border:1px solid #b9c4bf;background:#fff}.ghost{background:#eef0ed;color:#59625d}.save{background:var(--ink);color:#fff}.count{margin-left:4px;color:var(--muted);font-size:14px}.count strong{color:var(--ink);font-size:18px}.spacer{flex:1}
     .editor{display:grid;grid-template-columns:1fr 1fr minmax(220px,.7fr);gap:18px;border-top:0;border-radius:0 0 20px 20px;padding:18px}.editor label{display:flex;min-width:0;flex-direction:column;gap:8px}.editor b,.guide b{font-size:14px}.editor small,.guide span{color:var(--muted);font-size:12px}
     textarea{min-height:96px;resize:vertical;border:1px solid var(--line);border-radius:12px;outline:0;padding:12px;background:#fbfcfa;line-height:1.5}textarea:focus{border-color:var(--mint);box-shadow:0 0 0 3px #16a0851f}.guide{display:flex;flex-direction:column;gap:9px;border-radius:14px;background:#f2f0e7;padding:14px}
     .gridwrap{max-width:1600px;margin:24px auto 0;overflow:auto;border:1px solid var(--line);border-radius:18px;background:#e4e6e1;box-shadow:0 18px 55px #23322e17}.matrix{display:grid;width:max-content;gap:1px}.corner,.chead,.rhead{position:sticky;z-index:4;display:flex;min-height:64px;align-items:center;justify-content:center;background:#f7f7f3;font-size:13px;font-weight:800;text-align:center}.corner{top:0;left:0;z-index:6;padding:8px;color:var(--muted);font-size:10px}.chead{top:0;flex-direction:column;gap:5px;width:190px;padding:10px}.rhead{left:0;z-index:5;flex-direction:column;gap:5px;min-height:190px;padding:8px}.chead span,.rhead span{color:var(--dark);font-size:10px}.row{display:contents}
@@ -28,7 +28,7 @@
   <section class="toolbar">
     <input id="gallery" type="file" accept="image/*" multiple hidden><input id="files" type="file" multiple hidden>
     <button class="btn primary" data-open="gallery">사진·갤러리</button><button class="btn secondary" data-open="files">파일 선택</button>
-    <div class="count"><strong id="filled">0</strong> / <span id="total">9</span>장</div><div class="spacer"></div>
+    <div class="count"><strong id="filled">0</strong> / <span id="total">9</span>장</div><input class="zipname" id="zipName" type="text" value="이미지_정리" placeholder="ZIP 파일 이름" aria-label="ZIP 파일 이름"><div class="spacer"></div>
     <button class="btn ghost" id="clear">전체 비우기</button><button class="btn save" data-save>ZIP으로 저장</button>
   </section>
   <section class="editor">
@@ -84,7 +84,7 @@
     if(!window.JSZip)return say("압축 기능을 불러오지 못했어. 인터넷 연결을 확인해줘.");
     say("압축 파일을 만드는 중...");const zip=new JSZip(),used={};
     items.forEach((item,i)=>{if(!item)return;const x=i%cats.length,y=Math.floor(i/cats.length),ext=item.file.name.includes(".")?item.file.name.split(".").pop().toLowerCase():(item.file.type.split("/").pop()||"png"),base=`${safe(cats[x])}_${safe(sits[y])}`,n=used[base]=(used[base]||0)+1;zip.file(`${base}${n>1?`_${n}`:""}.${ext}`,item.file)});
-    const blob=await zip.generateAsync({type:"blob"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="이미지_정리.zip";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);say(`${items.filter(Boolean).length}장을 이름 변경해서 저장했어.`);
+    const blob=await zip.generateAsync({type:"blob"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);const zipName=safe($("#zipName").value||"이미지_정리");a.download=`${zipName}.zip`;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);say(`${items.filter(Boolean).length}장을 이름 변경해서 저장했어.`);
   }
   $$("[data-open]").forEach(b=>b.onclick=()=>$("#"+b.dataset.open).click());$("#gallery").onchange=e=>add(e.target);$("#files").onchange=e=>add(e.target);
   $("#clear").onclick=()=>{state.images.forEach(x=>x&&URL.revokeObjectURL(x.url));state.images=[];say("이미지를 전부 비웠어.");render()};
