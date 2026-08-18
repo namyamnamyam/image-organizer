@@ -9,15 +9,16 @@
   <style>
     :root{--ink:#17202a;--muted:#68727d;--paper:#f5f4ef;--line:#dcded8;--mint:#16a085;--dark:#0d745f}
     *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 10% 0,#e4f4ef 0,transparent 31rem),var(--paper);color:var(--ink);font-family:Arial,"Apple SD Gothic Neo",sans-serif}
-    button,textarea{font:inherit}button{-webkit-tap-highlight-color:transparent;cursor:pointer}main{min-height:100vh;padding:36px clamp(18px,4vw,64px) 110px}
+    button,input,textarea{font:inherit}button{-webkit-tap-highlight-color:transparent;cursor:pointer}button:disabled{cursor:wait;opacity:.55}main{min-height:100vh;padding:36px clamp(18px,4vw,64px) 110px}
     header{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;max-width:1600px;margin:0 auto 24px}.eyebrow{margin:0 0 8px;color:var(--dark);font-size:12px;font-weight:800;letter-spacing:.18em}
     h1{margin:0;font-size:clamp(32px,5vw,54px);letter-spacing:-.055em;line-height:1}.subtitle{margin:14px 0 0;color:var(--muted)}.privacy{flex:none;border:1px solid #b9ddd3;border-radius:999px;background:#eaf8f4;color:#176c5a;padding:10px 14px;font-size:13px;font-weight:700}
     .toolbar,.editor{max-width:1600px;margin:auto;border:1px solid var(--line);background:#ffffffe8;box-shadow:0 12px 40px #23322e12}.toolbar{display:flex;align-items:center;gap:10px;border-radius:20px 20px 0 0;padding:14px}
     .btn{min-height:44px;border:0;border-radius:12px;padding:0 18px;font-weight:800}.zipname{width:180px;min-height:44px;border:1px solid #b9c4bf;border-radius:12px;outline:0;padding:0 12px;background:#fff}.zipname:focus{border-color:var(--mint);box-shadow:0 0 0 3px #16a0851f}.primary{background:var(--mint);color:#fff}.secondary{border:1px solid #b9c4bf;background:#fff}.ghost{background:#eef0ed;color:#59625d}.save{background:var(--ink);color:#fff}.count{margin-left:4px;color:var(--muted);font-size:14px}.count strong{color:var(--ink);font-size:18px}.spacer{flex:1}
+    .progress{display:none;max-width:1600px;height:7px;margin:10px auto 0;overflow:hidden;border-radius:999px;background:#dfe5e1}.progress.on{display:block}.progress i{display:block;width:0;height:100%;border-radius:inherit;background:var(--mint);transition:width .15s ease}
     .editor{display:grid;grid-template-columns:1fr 1fr minmax(220px,.7fr);gap:18px;border-top:0;border-radius:0 0 20px 20px;padding:18px}.editor label{display:flex;min-width:0;flex-direction:column;gap:8px}.editor b,.guide b{font-size:14px}.editor small,.guide span{color:var(--muted);font-size:12px}
     textarea{min-height:96px;resize:vertical;border:1px solid var(--line);border-radius:12px;outline:0;padding:12px;background:#fbfcfa;line-height:1.5}textarea:focus{border-color:var(--mint);box-shadow:0 0 0 3px #16a0851f}.guide{display:flex;flex-direction:column;gap:9px;border-radius:14px;background:#f2f0e7;padding:14px}
-    .gridwrap{max-width:1600px;margin:24px auto 0;overflow:auto;border:1px solid var(--line);border-radius:18px;background:#e4e6e1;box-shadow:0 18px 55px #23322e17}.matrix{display:grid;width:max-content;gap:1px}.corner,.chead,.rhead{position:sticky;z-index:4;display:flex;min-height:64px;align-items:center;justify-content:center;background:#f7f7f3;font-size:13px;font-weight:800;text-align:center}.corner{top:0;left:0;z-index:6;padding:8px;color:var(--muted);font-size:10px}.chead{top:0;flex-direction:column;gap:5px;width:190px;padding:10px}.rhead{left:0;z-index:5;flex-direction:column;gap:5px;min-height:190px;padding:8px}.chead span,.rhead span{color:var(--dark);font-size:10px}.row{display:contents}
-    .cell{position:relative;width:190px;height:190px;background:#eceeea;overflow:hidden;touch-action:none}.cell.dragging{opacity:.45}.empty{display:flex;height:100%;align-items:center;justify-content:center;flex-direction:column;gap:5px;color:#adb3ad}.empty strong{font-size:18px}.empty span{font-size:11px}.card{width:100%;height:100%;cursor:grab;user-select:none}.card img{display:block;width:100%;height:100%;pointer-events:none;object-fit:contain}.label{position:absolute;inset:auto 7px 7px;display:flex;align-items:center;justify-content:space-between;gap:6px;border-radius:9px;background:#121a18d1;color:#fff;padding:6px 7px 6px 10px;backdrop-filter:blur(8px)}.label span{overflow:hidden;font-size:10px;font-weight:700;text-overflow:ellipsis;white-space:nowrap}.label button{flex:none;width:25px;height:25px;border:0;border-radius:7px;background:#ffffff26;color:#fff}
+    .gridwrap{max-width:1600px;margin:24px auto 0;overflow:auto;border:1px solid var(--line);border-radius:18px;background:#e4e6e1;box-shadow:0 18px 55px #23322e17;-webkit-overflow-scrolling:touch}.matrix{display:grid;width:max-content;gap:1px;contain:layout style}.corner,.chead,.rhead{position:sticky;z-index:4;display:flex;min-height:64px;align-items:center;justify-content:center;background:#f7f7f3;font-size:13px;font-weight:800;text-align:center}.corner{top:0;left:0;z-index:6;padding:8px;color:var(--muted);font-size:10px}.chead{top:0;flex-direction:column;gap:5px;width:190px;padding:10px}.rhead{left:0;z-index:5;flex-direction:column;gap:5px;min-height:190px;padding:8px}.chead span,.rhead span{color:var(--dark);font-size:10px}.row{display:contents}
+    .cell{position:relative;width:190px;height:190px;background:#eceeea;overflow:hidden;touch-action:none;content-visibility:auto;contain-intrinsic-size:190px}.cell.dragging{opacity:.45}.empty,.thumb-failed{display:flex;height:100%;align-items:center;justify-content:center;flex-direction:column;gap:5px;color:#adb3ad}.empty strong{font-size:18px}.empty span,.thumb-failed span{max-width:160px;overflow:hidden;font-size:11px;text-overflow:ellipsis;white-space:nowrap}.card{width:100%;height:100%;cursor:grab;user-select:none}.card img{display:block;width:100%;height:100%;pointer-events:none;object-fit:contain}.label{position:absolute;inset:auto 7px 7px;display:flex;align-items:center;justify-content:space-between;gap:6px;border-radius:9px;background:#121a18d1;color:#fff;padding:6px 7px 6px 10px;backdrop-filter:blur(8px)}.label span{overflow:hidden;font-size:10px;font-weight:700;text-overflow:ellipsis;white-space:nowrap}.label button{flex:none;width:25px;height:25px;border:0;border-radius:7px;background:#ffffff26;color:#fff}
     .notice{max-width:1600px;margin:14px auto 0;color:var(--muted);font-size:13px}footer{position:fixed;z-index:20;right:18px;bottom:18px;left:18px;display:none;align-items:center;justify-content:space-between;gap:14px;border-radius:17px;background:#17202aea;color:#fff;padding:10px 10px 10px 16px;box-shadow:0 14px 45px #0004;backdrop-filter:blur(12px)}footer span{overflow:hidden;font-size:12px;text-overflow:ellipsis;white-space:nowrap}footer button{flex:none;background:#f2c94c;color:#332b10}
     @media(max-width:760px){main{padding:24px 14px 100px}header{align-items:flex-start;flex-direction:column}.privacy{font-size:11px}.toolbar{flex-wrap:wrap}.spacer,.toolbar .save{display:none}.btn{flex:1;padding:0 12px}.ghost{flex:0 0 auto}.editor{grid-template-columns:1fr}.guide{display:none}.gridwrap{margin-top:16px}footer{display:flex}}
   </style>
@@ -26,11 +27,12 @@
 <main>
   <header><div><p class="eyebrow">IMAGE ORGANIZER</p><h1>이미지 자동 정리</h1><p class="subtitle">이미지를 표에 배치하고 끌어서 정리한 뒤, 이름을 바꿔 한 번에 저장해.</p></div><div class="privacy">모든 작업은 이 기기 안에서 처리돼</div></header>
   <section class="toolbar">
-    <input id="gallery" type="file" accept="image/*" multiple hidden><input id="files" type="file" multiple hidden>
+    <input id="gallery" type="file" accept="image/*" multiple hidden><input id="files" type="file" accept="image/*" multiple hidden>
     <button class="btn primary" data-open="gallery">사진·갤러리</button><button class="btn secondary" data-open="files">파일 선택</button>
     <div class="count"><strong id="filled">0</strong> / <span id="total">9</span>장</div><input class="zipname" id="zipName" type="text" value="이미지_정리" placeholder="ZIP 파일 이름" aria-label="ZIP 파일 이름"><div class="spacer"></div>
     <button class="btn ghost" id="clear">전체 비우기</button><button class="btn save" data-save>ZIP으로 저장</button>
   </section>
+  <div class="progress" id="progress"><i></i></div>
   <section class="editor">
     <label><b>분류 · 캐릭터명 (가로)</b><textarea id="categories">캐릭터 1
 캐릭터 2
@@ -38,7 +40,7 @@
     <label><b>상황 (세로)</b><textarea id="situations">기본
 기쁨
 화남</textarea><small>줄바꿈 또는 쉼표로 구분</small></label>
-    <div class="guide"><b>배치 순서</b><span>(0,0) → (1,0) → (2,0) → 다음 줄</span><span>이미지를 다른 칸으로 끌면 두 이미지가 서로 바뀌어.</span></div>
+    <div class="guide"><b>배치 순서</b><span>(0,0) → (1,0) → (2,0) → 다음 줄</span><span>이미지를 다른 칸으로 끌면 두 이미지가 서로 바뀌어.</span><span>대용량 ZIP은 아이패드 보호를 위해 여러 개로 자동 분할돼.</span></div>
   </section>
   <section class="gridwrap"><div class="matrix" id="matrix"></div></section>
   <p class="notice" id="notice">분류와 상황을 입력하고 이미지를 추가해봐.</p>
@@ -46,20 +48,27 @@
 </main>
 <script>
   const $=s=>document.querySelector(s), $$=s=>document.querySelectorAll(s);
-  const state={images:[],drag:null};
+  const state={images:[],drag:null,busy:false};
+  const THUMB_SIZE=320;
+  const ZIP_PART_BYTES=64*1024*1024;
   const parse=v=>v.split(/\n|,/).map(x=>x.trim()).filter(Boolean);
   const safe=v=>v.replace(/[\\/:*?"<>|]/g,"_").replace(/\s+/g," ").trim()||"미지정";
+  const esc=v=>String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
   const lists=()=>({cats:parse($("#categories").value),sits:parse($("#situations").value)});
   const say=t=>{$("#notice").textContent=t;$("#mobileNotice").textContent=t};
-  function swap(a,b){if(a===b||a<0||b<0)return;[state.images[a],state.images[b]]=[state.images[b],state.images[a]];render()}
+  const pause=ms=>new Promise(r=>setTimeout(r,ms));
+  function progress(value){const box=$("#progress"),bar=box.querySelector("i");box.classList.toggle("on",value!==null);bar.style.width=`${Math.max(0,Math.min(100,value||0))}%`}
+  function busy(on){state.busy=on;$$('button,input,textarea').forEach(el=>el.disabled=on)}
+  function release(item){if(item?.thumbUrl)URL.revokeObjectURL(item.thumbUrl)}
+  function swap(a,b){if(state.busy||a===b||a<0||b<0)return;[state.images[a],state.images[b]]=[state.images[b],state.images[a]];render()}
   function render(){
-    const {cats,sits}=lists(), count=cats.length*sits.length, grid=$("#matrix");
+    const {cats,sits}=lists(),count=cats.length*sits.length,grid=$("#matrix");
     $("#total").textContent=count;$("#filled").textContent=state.images.slice(0,count).filter(Boolean).length;
     grid.style.gridTemplateColumns=`108px repeat(${cats.length},190px)`;
-    grid.innerHTML=`<div class="corner">상황 ↓ / 분류 →</div>`+cats.map((x,i)=>`<div class="chead"><span>${i}, x</span>${x}</div>`).join("");
+    grid.innerHTML=`<div class="corner">상황 ↓ / 분류 →</div>`+cats.map((x,i)=>`<div class="chead"><span>${i}, x</span>${esc(x)}</div>`).join("");
     sits.forEach((sit,y)=>{
-      grid.insertAdjacentHTML("beforeend",`<div class="row"><div class="rhead"><span>y, ${y}</span>${sit}</div>`+
-        cats.map((cat,x)=>{const i=y*cats.length+x,item=state.images[i];return `<div class="cell" data-i="${i}">${item?`<div class="card" draggable="true" data-i="${i}"><img src="${item.url}" alt=""><div class="label"><span>${cat}_${sit}</span><button data-remove="${i}">×</button></div></div>`:`<div class="empty"><strong>${x},${y}</strong><span>빈칸</span></div>`}</div>`}).join("")+`</div>`);
+      grid.insertAdjacentHTML("beforeend",`<div class="row"><div class="rhead"><span>y, ${y}</span>${esc(sit)}</div>`+
+        cats.map((cat,x)=>{const i=y*cats.length+x,item=state.images[i];return `<div class="cell" data-i="${i}">${item?`<div class="card" draggable="true" data-i="${i}">${item.thumbUrl?`<img src="${item.thumbUrl}" alt="" loading="lazy" decoding="async">`:`<div class="thumb-failed"><strong>미리보기 없음</strong><span>${esc(item.file.name)}</span></div>`}<div class="label"><span>${esc(cat)}_${esc(sit)}</span><button data-remove="${i}" aria-label="이미지 제거">×</button></div></div>`:`<div class="empty"><strong>${x},${y}</strong><span>빈칸</span></div>`}</div>`}).join("")+`</div>`);
     });
     bindGrid();
   }
@@ -71,24 +80,70 @@
       card.onpointerup=e=>{if(e.pointerType!=="mouse"){const cell=document.elementFromPoint(e.clientX,e.clientY)?.closest(".cell");if(cell)swap(state.drag,+cell.dataset.i);state.drag=null}};
     });
     $$(".cell").forEach(cell=>{cell.ondragover=e=>e.preventDefault();cell.ondrop=e=>{e.preventDefault();swap(+e.dataTransfer.getData("text/plain"),+cell.dataset.i)}});
-    $$("[data-remove]").forEach(b=>b.onclick=e=>{e.stopPropagation();const i=+b.dataset.remove;URL.revokeObjectURL(state.images[i].url);state.images[i]=null;render()});
+    $$("[data-remove]").forEach(b=>b.onclick=e=>{e.stopPropagation();const i=+b.dataset.remove;release(state.images[i]);state.images[i]=null;render()});
   }
-  function add(input){
-    const {cats,sits}=lists(),count=cats.length*sits.length, chosen=[...input.files].filter(f=>f.type.startsWith("image/"));
-    state.images=Array.from({length:count},(_,i)=>state.images[i]||null);
-    let n=0;for(let i=0;i<count&&n<chosen.length;i++)if(!state.images[i]){const file=chosen[n++];state.images[i]={file,url:URL.createObjectURL(file)}}
-    say(`${n}장을 순서대로 배치했어.${n<chosen.length?` 빈칸이 부족해서 ${chosen.length-n}장은 제외했어.`:""}`);input.value="";render();
+  async function makeThumbnail(file){
+    const source=URL.createObjectURL(file),img=new Image();
+    try{
+      img.src=source;
+      if(img.decode)await img.decode();else await new Promise((ok,no)=>{img.onload=ok;img.onerror=no});
+      const ratio=Math.min(1,THUMB_SIZE/Math.max(img.naturalWidth,img.naturalHeight));
+      const w=Math.max(1,Math.round(img.naturalWidth*ratio)),h=Math.max(1,Math.round(img.naturalHeight*ratio));
+      const canvas=document.createElement("canvas");canvas.width=w;canvas.height=h;
+      const ctx=canvas.getContext("2d",{alpha:false});ctx.fillStyle="#eceeea";ctx.fillRect(0,0,w,h);ctx.drawImage(img,0,0,w,h);
+      const blob=await new Promise(resolve=>canvas.toBlob(resolve,"image/jpeg",.72));
+      canvas.width=canvas.height=1;
+      return blob?URL.createObjectURL(blob):null;
+    }catch{return null}finally{img.src="";URL.revokeObjectURL(source)}
   }
+  async function add(input){
+    if(state.busy)return;
+    const {cats,sits}=lists(),count=cats.length*sits.length,chosen=[...input.files].filter(f=>f.type.startsWith("image/"));
+    input.value="";
+    const slots=[];for(let i=0;i<count;i++)if(!state.images[i])slots.push(i);
+    const accepted=chosen.slice(0,slots.length);if(!accepted.length)return say(chosen.length?"빈칸이 없어.":"이미지 파일을 찾지 못했어.");
+    state.images.length=Math.max(state.images.length,count);busy(true);progress(0);render();
+    let done=0,failed=0;
+    for(let n=0;n<accepted.length;n++){
+      const file=accepted[n],thumbUrl=await makeThumbnail(file);if(!thumbUrl)failed++;
+      state.images[slots[n]]={file,thumbUrl};done++;
+      progress(done/accepted.length*100);say(`${accepted.length}장 중 ${done}장 준비 중...`);
+      if(done%12===0||done===accepted.length){render();await pause(0)}
+    }
+    busy(false);progress(null);render();
+    const left=chosen.length-accepted.length;
+    say(`${done}장을 순서대로 배치했어.${failed?` ${failed}장은 미리보기 없이 저장돼.`:""}${left?` 빈칸이 부족해서 ${left}장은 제외했어.`:""}`);
+  }
+  function namedItems(){
+    const {cats,sits}=lists(),count=cats.length*sits.length,used={};
+    return state.images.slice(0,count).map((item,i)=>{if(!item)return null;const x=i%cats.length,y=Math.floor(i/cats.length),ext=item.file.name.includes(".")?item.file.name.split(".").pop().toLowerCase():(item.file.type.split("/").pop()||"png"),base=`${safe(cats[x])}_${safe(sits[y])}`,n=used[base]=(used[base]||0)+1;return {file:item.file,name:`${base}${n>1?`_${n}`:""}.${ext}`}}).filter(Boolean);
+  }
+  function splitParts(items){
+    const parts=[];let part=[],bytes=0;
+    for(const item of items){if(part.length&&bytes+item.file.size>ZIP_PART_BYTES){parts.push(part);part=[];bytes=0}part.push(item);bytes+=item.file.size}
+    if(part.length)parts.push(part);return parts;
+  }
+  function download(blob,name){const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),15000)}
   async function save(){
-    const {cats,sits}=lists(),count=cats.length*sits.length,items=state.images.slice(0,count);if(!items.some(Boolean))return say("저장할 이미지가 없어.");
+    if(state.busy)return;
+    const items=namedItems();if(!items.length)return say("저장할 이미지가 없어.");
     if(!window.JSZip)return say("압축 기능을 불러오지 못했어. 인터넷 연결을 확인해줘.");
-    say("압축 파일을 만드는 중...");const zip=new JSZip(),used={};
-    items.forEach((item,i)=>{if(!item)return;const x=i%cats.length,y=Math.floor(i/cats.length),ext=item.file.name.includes(".")?item.file.name.split(".").pop().toLowerCase():(item.file.type.split("/").pop()||"png"),base=`${safe(cats[x])}_${safe(sits[y])}`,n=used[base]=(used[base]||0)+1;zip.file(`${base}${n>1?`_${n}`:""}.${ext}`,item.file)});
-    const blob=await zip.generateAsync({type:"blob"}),a=document.createElement("a");a.href=URL.createObjectURL(blob);const zipName=safe($("#zipName").value||"이미지_정리");a.download=`${zipName}.zip`;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);say(`${items.filter(Boolean).length}장을 이름 변경해서 저장했어.`);
+    const parts=splitParts(items),zipName=safe($("#zipName").value||"이미지_정리");busy(true);progress(0);
+    try{
+      for(let p=0;p<parts.length;p++){
+        const zip=new JSZip();for(const item of parts[p])zip.file(item.name,item.file,{binary:true,compression:"STORE"});
+        say(parts.length>1?`압축 ${p+1}/${parts.length} 만드는 중...`:`압축 파일을 만드는 중...`);
+        const blob=await zip.generateAsync({type:"blob",compression:"STORE",streamFiles:true},meta=>progress(((p+meta.percent/100)/parts.length)*100));
+        const suffix=parts.length>1?`_${String(p+1).padStart(2,"0")}`:"";download(blob,`${zipName}${suffix}.zip`);
+        await pause(700);
+      }
+      say(parts.length>1?`${items.length}장을 ${parts.length}개 ZIP으로 나눠 저장했어.`:`${items.length}장을 이름 변경해서 저장했어.`);
+    }catch(err){console.error(err);say("저장 중 메모리가 부족했어. 이미지를 나눠서 다시 시도해줘.")}
+    finally{busy(false);progress(null)}
   }
   $$("[data-open]").forEach(b=>b.onclick=()=>$("#"+b.dataset.open).click());$("#gallery").onchange=e=>add(e.target);$("#files").onchange=e=>add(e.target);
-  $("#clear").onclick=()=>{state.images.forEach(x=>x&&URL.revokeObjectURL(x.url));state.images=[];say("이미지를 전부 비웠어.");render()};
-  $("#categories").oninput=render;$("#situations").oninput=render;$$("[data-save]").forEach(b=>b.onclick=save);render();
+  $("#clear").onclick=()=>{if(state.busy)return;state.images.forEach(release);state.images=[];say("이미지를 전부 비웠어.");render()};
+  $("#categories").oninput=()=>{if(!state.busy)render()};$("#situations").oninput=()=>{if(!state.busy)render()};$$('[data-save]').forEach(b=>b.onclick=save);render();
 </script>
 </body>
 </html>
