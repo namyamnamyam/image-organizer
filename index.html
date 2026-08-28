@@ -97,12 +97,12 @@
         <div class="side-section-wrap">
           <section class="side-section">
             <div class="side-head"><h2>캐릭터</h2><span class="badge" id="catCount">0</span></div>
-            <div class="add-row"><input class="add-input" id="catInput" placeholder="캐릭터명"><button class="add-btn" id="addCat" type="button" aria-label="캐릭터 추가">+</button></div>
+            <div class="add-row"><input class="add-input" id="catInput" placeholder="캐릭터명, 캐릭터명"><button class="add-btn" id="addCat" type="button" aria-label="캐릭터 추가">+</button></div>
             <div class="item-list" id="catList"></div>
           </section>
           <section class="side-section">
             <div class="side-head"><h2>상황</h2><span class="badge" id="sitCount">0</span></div>
-            <div class="add-row"><input class="add-input" id="sitInput" placeholder="상황명"><button class="add-btn" id="addSit" type="button" aria-label="상황 추가">+</button></div>
+            <div class="add-row"><input class="add-input" id="sitInput" placeholder="상황명, 상황명"><button class="add-btn" id="addSit" type="button" aria-label="상황 추가">+</button></div>
             <div class="item-list" id="sitList"></div>
           </section>
         </div>
@@ -143,6 +143,7 @@
   const safe=v=>String(v).replace(/[\\/:*?"<>|]/g,"_").replace(/\s+/g," ").trim()||"미지정";
   const esc=v=>String(v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
   const pause=ms=>new Promise(r=>setTimeout(r,ms));
+  const parseEntries=v=>String(v).split(/[,，]/).map(x=>x.trim()).filter(Boolean);
   let toastTimer=null;
 
   function toast(text){const el=$('#toast');el.textContent=text;el.classList.add('on');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('on'),1800)}
@@ -161,14 +162,14 @@
   }
 
   function addCategory(){
-    const input=$('#catInput'),name=input.value.trim();if(!name)return;
-    const oldC=state.cats.length,rows=state.sits.length,newC=oldC+1,next=[];
+    const input=$('#catInput'),names=parseEntries(input.value);if(!names.length)return;
+    const oldC=state.cats.length,rows=state.sits.length,newC=oldC+names.length,next=[];
     for(let y=0;y<rows;y++)for(let x=0;x<oldC;x++)next[y*newC+x]=state.images[y*oldC+x]||null;
-    state.cats.push(name);state.images=next;input.value='';renderAll();input.focus();
+    state.cats.push(...names);state.images=next;input.value='';renderAll();input.focus();
   }
   function addSituation(){
-    const input=$('#sitInput'),name=input.value.trim();if(!name)return;
-    state.sits.push(name);input.value='';renderAll();input.focus();
+    const input=$('#sitInput'),names=parseEntries(input.value);if(!names.length)return;
+    state.sits.push(...names);input.value='';renderAll();input.focus();
   }
   function removeCategory(index){
     if(state.busy)return;const oldC=state.cats.length,rows=state.sits.length,newC=oldC-1,next=[];
